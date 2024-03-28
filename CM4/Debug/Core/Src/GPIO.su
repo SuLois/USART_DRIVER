@@ -1,0 +1,3 @@
+../Core/Src/GPIO.c:15:6:delay	24	static
+../Core/Src/GPIO.c:22:6:blink_LED4	24	static
+../Core/Src/GPIO.c:52:6:usart_gpio	16	static
