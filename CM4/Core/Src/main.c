@@ -21,8 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "USART_driver.h"
-#include "GPIO.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

@@ -5,11 +5,17 @@
  *      Author: louis
  */
 
+/*
+ * ---------------------------------------------------------------------------------------------
+ * Definition des registres GPIO
+ * ---------------------------------------------------------------------------------------------
+*/
+
 #ifndef INC_GPIO_H_
 #define INC_GPIO_H_
 
 /*
- * Activation de la clock sur GPIO  p492
+ * Activation de la clock sur GPIO
 */
 #define RCC_AHB4ENR_address 0x580244e0
 

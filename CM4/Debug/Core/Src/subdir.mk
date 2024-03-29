@@ -7,6 +7,7 @@
 C_SRCS += \
 ../Core/Src/GPIO.c \
 ../Core/Src/USART_driver.c \
+../Core/Src/clock_configuration.c \
 ../Core/Src/main.c \
 ../Core/Src/stm32h7xx_it.c \
 ../Core/Src/syscalls.c \
@@ -15,6 +16,7 @@ C_SRCS += \
 OBJS += \
 ./Core/Src/GPIO.o \
 ./Core/Src/USART_driver.o \
+./Core/Src/clock_configuration.o \
 ./Core/Src/main.o \
 ./Core/Src/stm32h7xx_it.o \
 ./Core/Src/syscalls.o \
@@ -23,6 +25,7 @@ OBJS += \
 C_DEPS += \
 ./Core/Src/GPIO.d \
 ./Core/Src/USART_driver.d \
+./Core/Src/clock_configuration.d \
 ./Core/Src/main.d \
 ./Core/Src/stm32h7xx_it.d \
 ./Core/Src/syscalls.d \
@@ -36,7 +39,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/GPIO.cyclo ./Core/Src/GPIO.d ./Core/Src/GPIO.o ./Core/Src/GPIO.su ./Core/Src/USART_driver.cyclo ./Core/Src/USART_driver.d ./Core/Src/USART_driver.o ./Core/Src/USART_driver.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32h7xx_it.cyclo ./Core/Src/stm32h7xx_it.d ./Core/Src/stm32h7xx_it.o ./Core/Src/stm32h7xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su
+	-$(RM) ./Core/Src/GPIO.cyclo ./Core/Src/GPIO.d ./Core/Src/GPIO.o ./Core/Src/GPIO.su ./Core/Src/USART_driver.cyclo ./Core/Src/USART_driver.d ./Core/Src/USART_driver.o ./Core/Src/USART_driver.su ./Core/Src/clock_configuration.cyclo ./Core/Src/clock_configuration.d ./Core/Src/clock_configuration.o ./Core/Src/clock_configuration.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32h7xx_it.cyclo ./Core/Src/stm32h7xx_it.d ./Core/Src/stm32h7xx_it.o ./Core/Src/stm32h7xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su
 
 .PHONY: clean-Core-2f-Src
 
