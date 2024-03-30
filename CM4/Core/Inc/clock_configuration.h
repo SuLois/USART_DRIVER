@@ -9,6 +9,12 @@
 #define INC_CLOCK_CONFIGURATION_H_
 
 /*
+ * Macro substitution
+*/
+#define bitshift(VAL, POS)          VAL << POS
+
+
+/*
  * Configuration des entrées de la clock
 */
 
@@ -70,5 +76,63 @@
 #define CFGR_SW_0                 CFGR_SW_0_Msk                    // Bit 0 System clock switch
 
 
+/*
+ * Configuration des prescalers D1 domain
+*/
+
+#define RCC_D1CFGR_address 0x58024418
+
+#define D1CFGR_D1CPRE_Pos             8
+#define D1CFGR_D1CPRE_Msk             (1 << D1CFGR_D1CPRE_Pos)
+#define D1CFGR_D1CPRE                 D1CFGR_D1CPRE_Msk				// D1CPRE prescaler
+
+#define D1CFGR_D1PPRE_Pos             4
+#define D1CFGR_D1PPRE_Msk             (1 << D1CFGR_D1PPRE_Pos)
+#define D1CFGR_D1PPRE                 D1CFGR_D1PPRE_Msk				// D1PPRE prescaler
+
+#define D1CFGR_HPRE_Pos               0
+#define D1CFGR_HPRE_Msk               (1 << D1CFGR_HPRE_Pos)
+#define D1CFGR_HPRE                   D1CFGR_HPRE_Msk					// HPRE prescaler
+
+
+/*
+ * Configuration des prescalers D2 domain
+*/
+
+#define RCC_D2CFGR_address 0x5802441C
+
+#define D2CFGR_D2PPRE1_Pos             8
+#define D2CFGR_D2PPRE1_Msk             (1 << D2CFGR_D2PPRE1_Pos)
+#define D2CFGR_D2PPRE1                 D2CFGR_D2PPRE1_Msk				// D2PPRE1 prescaler
+
+#define D2CFGR_D2PPRE2_Pos             4
+#define D2CFGR_D2PPRE2_Msk             (1 << D2CFGR_D2PPRE2_Pos)
+#define D2CFGR_D2PPRE2                 D2CFGR_D2PPRE2_Msk				// D2PPRE2 prescaler
+
+
+/*
+ * Configuration des prescalers D3 domain
+*/
+
+#define RCC_D2CFGR_address 0x58024420
+
+#define D3CFGR_D3PPRE_Pos             4
+#define D3CFGR_D3PPRE_Msk             (1 << D3CFGR_D3PPRE_Pos)
+#define D3CFGR_D3PPRE                 D3CFGR_D3PPRE_Msk					// D3PPRE prescaler
+
+
+/*
+ * Configuration des PLL clock source
+*/
+
+#define RCC_D2CFGR_address 0x58024428
+
+#define PLLCKSELR_DIVM1_Pos             4
+#define PLLCKSELR_DIVM1_Msk             (1 << PLLCKSELR_DIVM1_Pos)
+#define PLLCKSELR_DIVM1                 PLLCKSELR_DIVM1_Msk				// DIVM1 prescaler
+
+#define PLLCKSELR_PLLSRC_Pos            0
+#define PLLCKSELR_PLLSRC_Msk            (1 << PLLCKSELR_PLLSRC_Pos)
+#define PLLCKSELR_PLLSRC                PLLCKSELR_PLLSRC_Msk		 	// PLLSRC prescaler
 
 #endif /* INC_CLOCK_CONFIGURATION_H_ */
