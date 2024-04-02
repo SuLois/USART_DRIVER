@@ -114,7 +114,7 @@
  * Configuration des prescalers D3 domain
 */
 
-#define RCC_D2CFGR_address 0x58024420
+#define RCC_D3CFGR_address 0x58024420
 
 #define D3CFGR_D3PPRE_Pos             4
 #define D3CFGR_D3PPRE_Msk             (1 << D3CFGR_D3PPRE_Pos)
@@ -125,7 +125,7 @@
  * Configuration des PLL clock source
 */
 
-#define RCC_D2CFGR_address 0x58024428
+#define RCC_PLLCKSELR_address 0x58024428
 
 #define PLLCKSELR_DIVM1_Pos             4
 #define PLLCKSELR_DIVM1_Msk             (1 << PLLCKSELR_DIVM1_Pos)
@@ -134,5 +134,47 @@
 #define PLLCKSELR_PLLSRC_Pos            0
 #define PLLCKSELR_PLLSRC_Msk            (1 << PLLCKSELR_PLLSRC_Pos)
 #define PLLCKSELR_PLLSRC                PLLCKSELR_PLLSRC_Msk		 	// PLLSRC prescaler
+
+
+/*
+ * Configuration des prescaler des PLL
+*/
+
+#define RCC_PLLCFGR_address 0x5802442C
+
+#define PLLCFGR_DIVP1EN_Pos            16
+#define PLLCFGR_DIVP1EN_Msk            (1 << PLLCFGR_DIVP1EN_Pos)
+#define PLLCFGR_DIVP1EN                PLLCFGR_DIVP1EN_Msk				// DIVP1EN divider enable
+
+#define PLLCFGR_PLL1RGE_Pos            2
+#define PLLCFGR_PLL1RGE_Msk            (1 << PLLCFGR_PLL1RGE_Pos)
+#define PLLCFGR_PLL1RGE                PLLCFGR_PLL1RGE_Msk		 	// PLL1RGE clock frequency range
+
+
+/*
+ * Configuration des divider de la PLL1
+*/
+
+#define RCC_PLL1DIVR_address 0x58024430
+
+#define PLL1DIVR_DIVR1_Pos            24
+#define PLL1DIVR_DIVR1_Msk            (1 << PLL1DIVR_DIVR1_Pos)
+#define PLL1DIVR_DIVR1                PLL1DIVR_DIVR1_Msk				// DIVR1 prescaler
+
+#define PLL1DIVR_DIVQ1_Pos            16
+#define PLL1DIVR_DIVQ1_Msk            (1 << PLL1DIVR_DIVQ1_Pos)
+#define PLL1DIVR_DIVQ1                PLL1DIVR_DIVQ1_Msk		 	// DIVQ1 prescaler
+
+#define PLL1DIVR_c_Pos                9
+#define PLL1DIVR_DIVP1_Msk            (1 << PLL1DIVR_DIVP1_Pos)
+#define PLL1DIVR_DIVP1                PLL1DIVR_DIVP1_Msk				// DIVP1 prescaler
+
+#define PLL1DIVR_DIVN1_Pos            0
+#define PLL1DIVR_DIVN1_Msk            (1 << PLL1DIVR_DIVN1_Pos)
+#define PLL1DIVR_DIVN1                PLL1DIVR_DIVN1_Msk		 	// DIVN1 prescaler
+
+
+
+
 
 #endif /* INC_CLOCK_CONFIGURATION_H_ */
