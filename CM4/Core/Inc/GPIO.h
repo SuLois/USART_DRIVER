@@ -8,6 +8,23 @@
 #ifndef INC_GPIO_H_
 #define INC_GPIO_H_
 
+#include <stm32h757xx.h>
+
+
+/*
+ * Offset des registres
+*/
+#define GPIO_MODER_offset			0x00
+#define GPIO_OTYPER_offset          0x04
+#define GPIO_OSPEEDR_offset         0x08
+#define GPIO_PUPDR_offset           0x0C
+#define GPIO_IDR_offset             0x10
+#define GPIO_ODR_offset             0x14
+#define GPIO_BSRR_offset            0x18
+#define GPIO_LCKR_offset            0x1C
+#define GPIO_AFR_offset_0           0x00
+#define GPIO_AFR_offset_1           0x24
+
 /*
  * Activation de la clock sur GPIO  p492
 */
@@ -67,37 +84,6 @@
 #define GPIO_PB15_1                  GPIO_PB15_1_Msk                   // GPIO PB15 bit 1 mode
 
 
-#define GPIO_K_address 0x58022800
-
-#define GPIO_PK6_0_Pos               12
-#define GPIO_PK6_0_Msk               (1 << GPIO_PK6_0_Pos)
-#define GPIO_PK6_0                   GPIO_PK6_0_Msk                    // GPIO PK6 bit 0 mode
-
-#define GPIO_PK6_1_Pos               13
-#define GPIO_PK6_1_Msk               (1 << GPIO_PK6_1_Pos)
-#define GPIO_PK6_1                   GPIO_PK6_1_Msk                    // GPIO PK6 bit 1 mode
-
-
-// GPIO port output data register ODR --> connaitre l'état de la GPIO en sortie
-
-#define GPIO_K_ODR_address 0x58022814
-
-#define GPIO_ODR_PK6_Pos             6
-#define GPIO_ODR_PK6_Msk             (1 << GPIO_ODR_PK6_Pos)
-#define GPIO_ODR_PK6                 GPIO_ODR_PK6_Msk                  // GPIO output state
-
-
-// GPIO port bit set/reset BSRR --> SET ou RESET la GPIO
-
-#define GPIO_K_BSRR_address 0x58022818
-
-#define GPIO_BSRR_PK6_Pos             6
-#define GPIO_BSRR_PK6_Msk             (1 << GPIO_BSRR_PK6_Pos)
-#define GPIO_BSRR_PK6                 GPIO_BSRR_PK6_Msk                  // GPIO set
-
-#define GPIO_BSRR_PK6_RESET_Pos       22
-#define GPIO_BSRR_PK6_RESET_Msk       (1 << GPIO_BSRR_PK6_RESET_Pos)
-#define GPIO_BSRR_PK6_RESET           GPIO_BSRR_PK6_RESET_Msk            // GPIO set/reset
 
 void blink_LED4();
 void usart_gpio(void);

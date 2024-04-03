@@ -21,17 +21,30 @@ void delay(uint32_t nb){
 
 void blink_LED4(void){
 
-	volatile uint32_t *GPIO_K_register = (volatile uint32_t *)GPIO_K_address;
-	volatile uint32_t *GPIO_K_ODR_register = (volatile uint32_t *)GPIO_K_ODR_address;
-	volatile uint32_t *GPIO_K_BSRR_register = (volatile uint32_t *)GPIO_K_BSRR_address;
+
+	GPIO_TypeDef GPIO_offset = {
+		.MODER = GPIO_MODER_offset,
+		.OTYPER = GPIO_OTYPER_offset,
+		.OSPEEDR = GPIO_OSPEEDR_offset,
+		.PUPDR = GPIO_PUPDR_offset,
+		.IDR = GPIO_IDR_offset,
+		.ODR = GPIO_ODR_offset,
+		.BSRR = GPIO_BSRR_offset,
+		.LCKR = GPIO_LCKR_offset,
+		.AFR = {GPIO_AFR_offset_0, GPIO_AFR_offset_1}
+	};
+
+	volatile uint32_t *GPIO_K_MODER_register = (volatile uint32_t *)((uint32_t)GPIOK + GPIO_offset.MODER);
+	volatile uint32_t *GPIO_K_BSRR_register = (volatile uint32_t *)((uint32_t)GPIOK + GPIO_offset.BSRR);
+
 	volatile uint32_t *RCC_AHB4ENR_register = (volatile uint32_t *)RCC_AHB4ENR_address;
 
 	//Activation de la clock sur GPIO K
 	*RCC_AHB4ENR_register |= AHB4ENR_K;
 
 	//Configuration de PK6 en OUPTUT
-	*GPIO_K_register |= GPIO_PK6_0;
-	*GPIO_K_register &= ~ GPIO_PK6_1;
+	*GPIO_K_MODER_register |= GPIO_MODER_MODE6_0;
+	*GPIO_K_MODER_register &= ~ GPIO_MODER_MODE6_1;
 
 	/*
 	 * LED4 allumée
@@ -43,10 +56,10 @@ void blink_LED4(void){
 	 *	BSRR[31:15] = ‘1’: Reset
 	*/
 	//Bit mis à 1
-	*GPIO_K_BSRR_register |= GPIO_BSRR_PK6;
-	delay(1000000);
-	*GPIO_K_BSRR_register |= GPIO_BSRR_PK6_RESET;
-	delay(1000000);
+	*GPIO_K_BSRR_register |= GPIO_BSRR_BS6;
+	delay(10000000);
+	*GPIO_K_BSRR_register |= GPIO_BSRR_BR6;
+	delay(10000000);
 }
 
 void usart_gpio(void){
