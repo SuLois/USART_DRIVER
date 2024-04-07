@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "USART_driver.h"
 #include "GPIO.h"
+#include "RCC_CLOCK.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -72,7 +73,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  LL_APB4_GRP1_EnableClock(LL_APB4_GRP1_PERIPH_SYSCFG);
+  //LL_APB4_GRP1_EnableClock(LL_APB4_GRP1_PERIPH_SYSCFG);
 
   /* System interrupt init*/
   //NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
@@ -107,6 +108,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  clock_config();
 	  blink_LED4();
 
     /* USER CODE END WHILE */
