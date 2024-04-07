@@ -257,67 +257,67 @@ void clock_config(){
  81003d4:	f103 43b0 	add.w	r3, r3, #1476395008	@ 0x58000000
  81003d8:	f503 3311 	add.w	r3, r3, #148480	@ 0x24400
  81003dc:	607b      	str	r3, [r7, #4]
-
-	*RCC_RSR_register |= RCC_RSR_SFT2RSTF; //Reset des registres du CPU2
- 81003de:	687b      	ldr	r3, [r7, #4]
- 81003e0:	681b      	ldr	r3, [r3, #0]
- 81003e2:	f043 7200 	orr.w	r2, r3, #33554432	@ 0x2000000
- 81003e6:	687b      	ldr	r3, [r7, #4]
- 81003e8:	601a      	str	r2, [r3, #0]
+	//*RCC_RSR_register |= RCC_RSR_SFT2RSTF; //Reset des registres du CPU2
 
 
 	/* --------- Configuration registre CR -------- */
 
 	volatile uint32_t *RCC_CR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CR);
- 81003ea:	4b1f      	ldr	r3, [pc, #124]	@ (8100468 <clock_config+0xa0>)
- 81003ec:	681b      	ldr	r3, [r3, #0]
- 81003ee:	f103 43b0 	add.w	r3, r3, #1476395008	@ 0x58000000
- 81003f2:	f503 3311 	add.w	r3, r3, #148480	@ 0x24400
- 81003f6:	603b      	str	r3, [r7, #0]
+ 81003de:	4b22      	ldr	r3, [pc, #136]	@ (8100468 <clock_config+0xa0>)
+ 81003e0:	681b      	ldr	r3, [r3, #0]
+ 81003e2:	f103 43b0 	add.w	r3, r3, #1476395008	@ 0x58000000
+ 81003e6:	f503 3311 	add.w	r3, r3, #148480	@ 0x24400
+ 81003ea:	603b      	str	r3, [r7, #0]
 
 	*RCC_CR_register |= RCC_CR_HSION; // Clock d'entrée HSI
- 81003f8:	683b      	ldr	r3, [r7, #0]
- 81003fa:	681b      	ldr	r3, [r3, #0]
- 81003fc:	f043 0201 	orr.w	r2, r3, #1
- 8100400:	683b      	ldr	r3, [r7, #0]
- 8100402:	601a      	str	r2, [r3, #0]
+ 81003ec:	683b      	ldr	r3, [r7, #0]
+ 81003ee:	681b      	ldr	r3, [r3, #0]
+ 81003f0:	f043 0201 	orr.w	r2, r3, #1
+ 81003f4:	683b      	ldr	r3, [r7, #0]
+ 81003f6:	601a      	str	r2, [r3, #0]
 
 	while(((*RCC_CR_register >> 2) & 0x1) != 1) ; // Attente HSI stable
- 8100404:	bf00      	nop
- 8100406:	683b      	ldr	r3, [r7, #0]
- 8100408:	681b      	ldr	r3, [r3, #0]
- 810040a:	089b      	lsrs	r3, r3, #2
- 810040c:	f003 0301 	and.w	r3, r3, #1
- 8100410:	2b01      	cmp	r3, #1
- 8100412:	d1f8      	bne.n	8100406 <clock_config+0x3e>
+ 81003f8:	bf00      	nop
+ 81003fa:	683b      	ldr	r3, [r7, #0]
+ 81003fc:	681b      	ldr	r3, [r3, #0]
+ 81003fe:	089b      	lsrs	r3, r3, #2
+ 8100400:	f003 0301 	and.w	r3, r3, #1
+ 8100404:	2b01      	cmp	r3, #1
+ 8100406:	d1f8      	bne.n	81003fa <clock_config+0x32>
 
 	*RCC_CR_register |= RCC_CR_HSIDIV_1; // Prescaler HSI /1
- 8100414:	683b      	ldr	r3, [r7, #0]
- 8100416:	681a      	ldr	r2, [r3, #0]
- 8100418:	683b      	ldr	r3, [r7, #0]
- 810041a:	601a      	str	r2, [r3, #0]
+ 8100408:	683b      	ldr	r3, [r7, #0]
+ 810040a:	681a      	ldr	r2, [r3, #0]
+ 810040c:	683b      	ldr	r3, [r7, #0]
+ 810040e:	601a      	str	r2, [r3, #0]
 
 	while(((*RCC_CR_register >> 14) & 0x1) != 1) ; // Clock domain stable D1
- 810041c:	bf00      	nop
- 810041e:	683b      	ldr	r3, [r7, #0]
- 8100420:	681b      	ldr	r3, [r3, #0]
- 8100422:	0b9b      	lsrs	r3, r3, #14
- 8100424:	f003 0301 	and.w	r3, r3, #1
- 8100428:	2b01      	cmp	r3, #1
- 810042a:	d1f8      	bne.n	810041e <clock_config+0x56>
+ 8100410:	bf00      	nop
+ 8100412:	683b      	ldr	r3, [r7, #0]
+ 8100414:	681b      	ldr	r3, [r3, #0]
+ 8100416:	0b9b      	lsrs	r3, r3, #14
+ 8100418:	f003 0301 	and.w	r3, r3, #1
+ 810041c:	2b01      	cmp	r3, #1
+ 810041e:	d1f8      	bne.n	8100412 <clock_config+0x4a>
 	while(((*RCC_CR_register >> 15) & 0x1) != 1) ; // -					  D2
- 810042c:	bf00      	nop
- 810042e:	683b      	ldr	r3, [r7, #0]
- 8100430:	681b      	ldr	r3, [r3, #0]
- 8100432:	0bdb      	lsrs	r3, r3, #15
- 8100434:	f003 0301 	and.w	r3, r3, #1
- 8100438:	2b01      	cmp	r3, #1
- 810043a:	d1f8      	bne.n	810042e <clock_config+0x66>
+ 8100420:	bf00      	nop
+ 8100422:	683b      	ldr	r3, [r7, #0]
+ 8100424:	681b      	ldr	r3, [r3, #0]
+ 8100426:	0bdb      	lsrs	r3, r3, #15
+ 8100428:	f003 0301 	and.w	r3, r3, #1
+ 810042c:	2b01      	cmp	r3, #1
+ 810042e:	d1f8      	bne.n	8100422 <clock_config+0x5a>
 
 	*RCC_CR_register |= RCC_CR_PLL1ON; // PLL1 ON
+ 8100430:	683b      	ldr	r3, [r7, #0]
+ 8100432:	681b      	ldr	r3, [r3, #0]
+ 8100434:	f043 7280 	orr.w	r2, r3, #16777216	@ 0x1000000
+ 8100438:	683b      	ldr	r3, [r7, #0]
+ 810043a:	601a      	str	r2, [r3, #0]
+	*RCC_CR_register |= RCC_CR_PLL2ON;
  810043c:	683b      	ldr	r3, [r7, #0]
  810043e:	681b      	ldr	r3, [r3, #0]
- 8100440:	f043 7280 	orr.w	r2, r3, #16777216	@ 0x1000000
+ 8100440:	f043 6280 	orr.w	r2, r3, #67108864	@ 0x4000000
  8100444:	683b      	ldr	r3, [r7, #0]
  8100446:	601a      	str	r2, [r3, #0]
 	while(((*RCC_CR_register >> 25) & 0x1) != 1) ; // PLL1 clock ready

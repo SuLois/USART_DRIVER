@@ -103,6 +103,36 @@ void clock_config(){
 
 	/* --------- Configuration registre CFGR -------- */
 
+	volatile uint32_t *RCC_CFGR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CFGR);
+
+	*RCC_CFGR_register |= RCC_CFGR_SW_2; // System Clock définie sur PLL1
+
+
+	/* --------- Configuration registre D1CFGR -------- */
+
+	volatile uint32_t *RCC_D1CFGR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.D1CFGR);
+
+	*RCC_D1CFGR_register &= ~RCC_D1CFGR_HPRE_DIV1; //HPRE PRESCALER /0
+
+	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1PPRE_DIV; //D1PPRE PRESCALER /0
+
+	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1CPRE_DIV1; //D1CPRE PRESCALER /0
+
+
+	/* --------- Configuration registre PLLCKSELR -------- */
+
+	volatile uint32_t *RCC_PLLCKSELR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.PLLCKSELR);
+
+	*RCC_PLLCKSELR_register &= ~RCC_PLLCKSELR_PLLSRC_HSI; // HSI CLOCK MUX
+
+	*RCC_PLLCKSELR_register &= FC0C0C0F; //mask DIVM* prescaler
+	*RCC_PLLCKSELR_register |= RCC_PLLCKSELR_DIVM1_2; //DIVM1 PRESCALER /4
+	*RCC_PLLCKSELR_register |= RCC_PLLCKSELR_DIVM2_2; //DIVM2 PRESCALER /4
+	//DIVM3 PRESCALER DISABLED
+
+
+
+
 
 
 }
