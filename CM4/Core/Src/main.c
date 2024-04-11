@@ -89,7 +89,7 @@ int main(void)
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
 
-	//gpio_check_freq();
+	gpio_check_freq();
 	clock_config();
 
 	/* Configuration de la liaison USART */

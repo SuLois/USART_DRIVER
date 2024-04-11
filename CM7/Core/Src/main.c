@@ -110,8 +110,8 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
-  LL_FLASH_SetLatency(LL_FLASH_LATENCY_1);
-  while(LL_FLASH_GetLatency()!= LL_FLASH_LATENCY_1)
+  LL_FLASH_SetLatency(LL_FLASH_LATENCY_0);
+  while(LL_FLASH_GetLatency()!= LL_FLASH_LATENCY_0)
   {
   }
   LL_PWR_ConfigSupply(LL_PWR_DIRECT_SMPS_SUPPLY);
@@ -124,27 +124,11 @@ void SystemClock_Config(void)
 
   }
   LL_RCC_HSI_SetCalibTrimming(32);
-  LL_RCC_HSI_SetDivider(LL_RCC_HSI_DIV1);
-  LL_RCC_PLL_SetSource(LL_RCC_PLLSOURCE_HSI);
-  LL_RCC_PLL1P_Enable();
-  LL_RCC_PLL1_SetVCOInputRange(LL_RCC_PLLINPUTRANGE_8_16);
-  LL_RCC_PLL1_SetVCOOutputRange(LL_RCC_PLLVCORANGE_MEDIUM);
-  LL_RCC_PLL1_SetM(4);
-  LL_RCC_PLL1_SetN(10);
-  LL_RCC_PLL1_SetP(2);
-  LL_RCC_PLL1_SetQ(1);
-  LL_RCC_PLL1_SetR(2);
-  LL_RCC_PLL1_Enable();
-
-   /* Wait till PLL is ready */
-  while(LL_RCC_PLL1_IsReady() != 1)
-  {
-  }
-
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL1);
+  LL_RCC_HSI_SetDivider(LL_RCC_HSI_DIV8);
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
 
    /* Wait till System clock is ready */
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL1)
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI)
   {
 
   }
@@ -155,9 +139,9 @@ void SystemClock_Config(void)
   LL_RCC_SetAPB3Prescaler(LL_RCC_APB3_DIV_1);
   LL_RCC_SetAPB4Prescaler(LL_RCC_APB4_DIV_1);
 
-  LL_Init1msTick(80000000);
+  LL_Init1msTick(8000000);
 
-  LL_SetSystemCoreClock(80000000);
+  LL_SetSystemCoreClock(8000000);
 }
 
 /* USER CODE BEGIN 4 */
