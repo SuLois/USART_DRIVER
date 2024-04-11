@@ -89,6 +89,9 @@ int main(void)
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
 
+	//gpio_check_freq();
+	clock_config();
+
 	/* Configuration de la liaison USART */
 	 USART_Config_t usart_config = {
 			.USART_Baud = 9600,
@@ -108,10 +111,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  clock_config();
 	  blink_LED4();
 
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

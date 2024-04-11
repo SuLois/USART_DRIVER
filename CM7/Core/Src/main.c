@@ -128,9 +128,9 @@ void SystemClock_Config(void)
   LL_RCC_PLL_SetSource(LL_RCC_PLLSOURCE_HSI);
   LL_RCC_PLL1P_Enable();
   LL_RCC_PLL1_SetVCOInputRange(LL_RCC_PLLINPUTRANGE_8_16);
-  LL_RCC_PLL1_SetVCOOutputRange(LL_RCC_PLLVCORANGE_WIDE);
+  LL_RCC_PLL1_SetVCOOutputRange(LL_RCC_PLLVCORANGE_MEDIUM);
   LL_RCC_PLL1_SetM(4);
-  LL_RCC_PLL1_SetN(12);
+  LL_RCC_PLL1_SetN(10);
   LL_RCC_PLL1_SetP(2);
   LL_RCC_PLL1_SetQ(1);
   LL_RCC_PLL1_SetR(2);
@@ -140,9 +140,6 @@ void SystemClock_Config(void)
   while(LL_RCC_PLL1_IsReady() != 1)
   {
   }
-
-   /* Intermediate AHB prescaler 2 when target frequency clock is higher than 80 MHz */
-   LL_RCC_SetAHBPrescaler(LL_RCC_AHB_DIV_2);
 
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL1);
 
@@ -158,9 +155,9 @@ void SystemClock_Config(void)
   LL_RCC_SetAPB3Prescaler(LL_RCC_APB3_DIV_1);
   LL_RCC_SetAPB4Prescaler(LL_RCC_APB4_DIV_1);
 
-  LL_Init1msTick(96000000);
+  LL_Init1msTick(80000000);
 
-  LL_SetSystemCoreClock(96000000);
+  LL_SetSystemCoreClock(80000000);
 }
 
 /* USER CODE BEGIN 4 */

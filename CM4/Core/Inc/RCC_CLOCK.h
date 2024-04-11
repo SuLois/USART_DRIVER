@@ -79,4 +79,6 @@
 #define APB2LPENR_offset               0x118
 #define APB4LPENR_offset               0x11C
 
+void clock_config();
+
 #endif /* INC_RCC_CLOCK_H_ */

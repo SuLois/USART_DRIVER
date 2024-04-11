@@ -84,7 +84,7 @@
 #define GPIO_PB15_1                  GPIO_PB15_1_Msk                   // GPIO PB15 bit 1 mode
 
 
-
+void gpio_check_freq();
 void blink_LED4();
 void usart_gpio(void);
 
