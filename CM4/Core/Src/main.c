@@ -89,8 +89,8 @@ int main(void)
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
 
-	gpio_check_freq();
 	clock_config();
+	gpio_check_freq();
 
 	/* Configuration de la liaison USART */
 	 USART_Config_t usart_config = {

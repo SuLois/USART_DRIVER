@@ -121,12 +121,12 @@ void clock_config(){
 	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_1; // MUX MCO1 sur HSI
 	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_2; // MUX MCO1 sur HSI
 
-	*RCC_CFGR_register &= ~RCC_CFGR_MCO1PRE_0;
+	*RCC_CFGR_register &= ~RCC_CFGR_MCO1PRE_0; //division par 10 à la sortie sur MCO1
 	*RCC_CFGR_register |= RCC_CFGR_MCO1PRE_1;
 	*RCC_CFGR_register &= ~RCC_CFGR_MCO1PRE_2;
 	*RCC_CFGR_register |= RCC_CFGR_MCO1PRE_3;
 
-	*RCC_CFGR_register |= RCC_CFGR_SWS_HSI; // System Clock définie sur HSI
+	*RCC_CFGR_register |= RCC_CFGR_SW_HSE; //Nécessaire de changer l'origine de la clock système pour chnager le prescaler du HSI
 
 
 	/* --------- Configuration registre CR - Mise on après configuration -------- */
@@ -137,7 +137,8 @@ void clock_config(){
 
 	while(((*RCC_CR_register >> 2) & 0x1) != 1) ; // Attente HSI stable
 
-	*RCC_CR_register |= RCC_CR_HSIDIV_8; // Prescaler HSI /8
+	*RCC_CR_register &= ~RCC_CR_HSIDIV_1; // RAZ prescaler
+	*RCC_CR_register |= RCC_CR_HSIDIV_4; // Prescaler HSI /8
 /*
 	while(((*RCC_CR_register >> 14) & 0x1) != 1) ; // Clock domain stable D1
 	while(((*RCC_CR_register >> 15) & 0x1) != 1) ; // -					  D2
@@ -145,6 +146,13 @@ void clock_config(){
 	*RCC_CR_register |= RCC_CR_PLL1ON; // PLL1 ON
 	while(((*RCC_CR_register >> 25) & 0x1) != 1) ; // PLL1 clock ready
 */
+
+
+	/* System clock */
+
+	*RCC_CFGR_register &= ~RCC_CFGR_SW_HSI; // System Clock définie sur HSI
+	//TODO : reprendre config clock d'entrée pour placer presclar sur HSI
+
 
 	/* --------- Configuration registre D1CFGR -------- */
 
@@ -155,9 +163,6 @@ void clock_config(){
 	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1PPRE_DIV1; //D1PPRE PRESCALER /0
 
 	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1CPRE_DIV1; //D1CPRE PRESCALER /0
-
-
-
 
 
 }

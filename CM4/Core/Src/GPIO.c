@@ -77,9 +77,9 @@ void blink_LED4(void){
 	*/
 	//Bit mis à 1
 	*GPIO_K_BSRR_register |= GPIO_BSRR_BS6;
-	delay(10000000);
+	delay(100000);
 	*GPIO_K_BSRR_register |= GPIO_BSRR_BR6;
-	delay(10000000);
+	delay(100000);
 }
 /*
 void usart_gpio(void){
