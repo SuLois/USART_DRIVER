@@ -26,6 +26,10 @@ static GPIO_TypeDef GPIO_offset = {
 
 void gpio_check_freq(void){
 
+	volatile uint32_t *RCC_AHB4ENR_register = (volatile uint32_t *)RCC_AHB4ENR_address;
+	//Activer la clock sur GPIOA
+	*RCC_AHB4ENR_register |= AHB4ENR_A;
+
 	/* TODO : Créer une fonction pour la déclaration des registres en tant que pointer */
 	volatile uint32_t *GPIO_A_MODER_register = (volatile uint32_t *)((uint32_t)GPIOA + GPIO_offset.MODER);
 
