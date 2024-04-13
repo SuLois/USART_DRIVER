@@ -77,9 +77,14 @@ static RCC_TypeDef RCC_offset = {
 void clock_config(){
 
 
-	/* --------- Configuration registre RSR -------- */
-
 	volatile uint32_t *RCC_RSR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.RSR);
+	volatile uint32_t *RCC_CFGR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CFGR);
+	volatile uint32_t *RCC_CR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CR);
+	volatile uint32_t *RCC_D1CFGR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.D1CFGR);
+
+	//volatile uint32_t *RCC_PLL1DIVR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.PLL1DIVR);
+	volatile uint32_t *RCC_PLLCKSELR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.PLLCKSELR);
+	//volatile uint32_t *RCC_CR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CR);
 
 	*RCC_RSR_register |= RCC_RSR_SFT2RSTF; //Reset des registres du CPU2
 
@@ -87,7 +92,7 @@ void clock_config(){
 	/* --------- Configuration registre PLL1DIVR -------- */
 	/*
 	 *
-	 * volatile uint32_t *RCC_PLL1DIVR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.PLL1DIVR);
+	 *
      *
 	 *  *RCC_PLL1DIVR_register &= ~RCC_PLL1DIVR_N1;
 	 *  *RCC_PLL1DIVR_register |= 0xB << RCC_PLL1DIVR_N1_Pos; //Prescaler DIVN1 a 12 /!\ correspond à 0xB et non 0xC !!
@@ -98,11 +103,8 @@ void clock_config(){
 	 *	//Prescaler DIVR1 a 2 avec reset
 	 */
 
-
-
-	/* --------- Configuration registre PLLCKSELR -------- */
 /*
-	volatile uint32_t *RCC_PLLCKSELR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.PLLCKSELR);
+
 
 	*RCC_PLLCKSELR_register &= RCC_PLLCKSELR_PLLSRC_HSI; // HSI CLOCK SOURCE MUX
 
@@ -113,32 +115,33 @@ void clock_config(){
 	//DIVM3 PRESCALER DISABLED
 */
 
-	/* --------- Configuration registre CFGR, juste après reset -------- */
 
-	volatile uint32_t *RCC_CFGR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CFGR);
 
-	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_0; // MUX MCO1 sur HSI
-	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_1; // MUX MCO1 sur HSI
-	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_2; // MUX MCO1 sur HSI
+	*RCC_CR_register |= RCC_CR_HSEON; 			// Clock HSE on
+	*RCC_CFGR_register |= RCC_CFGR_SW_HSE; 		// Sys CLK sur HSE
 
-	*RCC_CFGR_register &= ~RCC_CFGR_MCO1PRE_0; //division par 10 à la sortie sur MCO1
+	*RCC_CR_register &= ~RCC_CR_HSION; 			// Clock HSI off
+	*RCC_CR_register &= RCC_CR_HSIDIV_1; 		// RAZ prescaler HSI
+	*RCC_CR_register |= RCC_CR_HSIDIV_8; 		// Prescaler HSI /8
+
+	/* ------ MUX MCO1 sur HSI [0, 0, 0] ------ */
+	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_0;
+	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_1;
+	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_2;
+
+	*RCC_CFGR_register &= RCC_CFGR_SW_HSI; // Sys CLK sur HSI
+
+	/* ------ division par 10 à la sortie sur MCO1 ------ */
+	*RCC_CFGR_register &= ~RCC_CFGR_MCO1PRE_0;
 	*RCC_CFGR_register |= RCC_CFGR_MCO1PRE_1;
 	*RCC_CFGR_register &= ~RCC_CFGR_MCO1PRE_2;
 	*RCC_CFGR_register |= RCC_CFGR_MCO1PRE_3;
 
-	*RCC_CFGR_register |= RCC_CFGR_SW_HSE; //Nécessaire de changer l'origine de la clock système pour chnager le prescaler du HSI
-
-
-	/* --------- Configuration registre CR - Mise on après configuration -------- */
-
-	volatile uint32_t *RCC_CR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CR);
-
-	*RCC_CR_register |= RCC_CR_HSION; // Clock d'entrée HSI
-
+	*RCC_CR_register |= RCC_CR_HSION; // Clock HSI on
 	while(((*RCC_CR_register >> 2) & 0x1) != 1) ; // Attente HSI stable
 
-	*RCC_CR_register &= ~RCC_CR_HSIDIV_1; // RAZ prescaler
-	*RCC_CR_register |= RCC_CR_HSIDIV_4; // Prescaler HSI /8
+	*RCC_CR_register &= ~RCC_CR_HSEON; 			// Clock HSE off
+
 /*
 	while(((*RCC_CR_register >> 14) & 0x1) != 1) ; // Clock domain stable D1
 	while(((*RCC_CR_register >> 15) & 0x1) != 1) ; // -					  D2
@@ -147,21 +150,8 @@ void clock_config(){
 	while(((*RCC_CR_register >> 25) & 0x1) != 1) ; // PLL1 clock ready
 */
 
-
-	/* System clock */
-
-	*RCC_CFGR_register &= ~RCC_CFGR_SW_HSI; // System Clock définie sur HSI
-	//TODO : reprendre config clock d'entrée pour placer presclar sur HSI
-
-
-	/* --------- Configuration registre D1CFGR -------- */
-
-	volatile uint32_t *RCC_D1CFGR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.D1CFGR);
-
 	*RCC_D1CFGR_register &= ~RCC_D1CFGR_HPRE_DIV1; //HPRE PRESCALER /0
-
 	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1PPRE_DIV1; //D1PPRE PRESCALER /0
-
 	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1CPRE_DIV1; //D1CPRE PRESCALER /0
 
 
