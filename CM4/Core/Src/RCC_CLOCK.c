@@ -84,26 +84,28 @@ void clock_config(){
 
 	volatile uint32_t *RCC_PLL1DIVR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.PLL1DIVR);
 	volatile uint32_t *RCC_PLLCKSELR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.PLLCKSELR);
+	volatile uint32_t *RCC_CIER_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CIER);
+	volatile uint32_t *RCC_CICR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CICR);
 
-	*RCC_RSR_register |= RCC_RSR_SFT2RSTF; //Reset des registres du CPU2
 
-
+	*RCC_RSR_register |= RCC_RSR_SFT2RSTF; 					// Reset des registres du CPU2
 
 	//Configuration des prescaler internes PLL1
 	*RCC_PLL1DIVR_register &= ~RCC_PLL1DIVR_N1;				// RAZ
-	*RCC_PLL1DIVR_register |= 0xB << RCC_PLL1DIVR_N1_Pos; 	//Prescaler DIVN1 a 12 /!\ correspond à 0xB et non 0xC !!
-	*RCC_PLL1DIVR_register &= ~RCC_PLL1DIVR_P1;				//RAZ
-	*RCC_PLL1DIVR_register |= 0x1 << RCC_PLL1DIVR_P1_Pos; 	//Prescaler DIVP1 a 2  par défaut
-	*RCC_PLL1DIVR_register &= ~RCC_PLL1DIVR_Q1;				//RAZ
-	*RCC_PLL1DIVR_register |= 0x0 << RCC_PLL1DIVR_Q1_Pos; 	//Prescaler DIVQ1 a 1
-	//Prescaler DIVR1 a 2 par défaut
+	*RCC_PLL1DIVR_register |= 0xB << RCC_PLL1DIVR_N1_Pos; 	// Prescaler DIVN1 a 12 /!\ correspond à 0xB et non 0xC !!
+	*RCC_PLL1DIVR_register &= ~RCC_PLL1DIVR_P1;				// RAZ
+	*RCC_PLL1DIVR_register |= 0x1 << RCC_PLL1DIVR_P1_Pos; 	// Prescaler DIVP1 a 2 par défaut
+	*RCC_PLL1DIVR_register &= ~RCC_PLL1DIVR_Q1;				// RAZ
+	*RCC_PLL1DIVR_register |= 0x0 << RCC_PLL1DIVR_Q1_Pos; 	// Prescaler DIVQ1 a 1
+	*RCC_PLL1DIVR_register |= 0x1 << RCC_PLL1DIVR_R1_Pos; 	// Prescaler DIVQ1 a 1
 
 	*RCC_PLLCKSELR_register &= RCC_PLLCKSELR_PLLSRC_HSI; 	// PLL1 source : HSI
-	*RCC_PLLCKSELR_register &= 0xFC0C0C0F; 					//mask DIVM* prescaler 1111 1100 0000 1100 0000 1100 0000 1111
-	*RCC_PLLCKSELR_register |= RCC_PLLCKSELR_DIVM1_2; 		//DIVM1 PRESCALER /4
+	*RCC_PLLCKSELR_register &= 0xFC0C0C0F; 					// mask DIVM* prescaler 1111 1100 0000 1100 0000 1100 0000 1111
+	*RCC_PLLCKSELR_register |= RCC_PLLCKSELR_DIVM1_2; 		// DIVM1 PRESCALER /4
 	//DIVM3 PRESCALER DISABLED
 
-
+	*RCC_CIER_register |= RCC_CIER_PLL1RDYIE; 				// Activer les interruptions sur flag PLL1 READY
+	*RCC_CICR_register |= RCC_CICR_PLLRDYC; 				// reset interruptions sur flag PLL1 READY
 
 
 	*RCC_CR_register |= RCC_CR_HSEON; 						// Clock HSE on
@@ -113,14 +115,14 @@ void clock_config(){
 	*RCC_CR_register &= RCC_CR_HSIDIV_1; 					// RAZ prescaler HSI
 	*RCC_CR_register |= RCC_CR_HSIDIV_8; 					// Prescaler HSI /8
 
-	/* ------ MUX MCO1 sur HSI [0, 0, 0] ------ */
+	/* ------------ MUX MCO1 sur HSI [0, 0, 0] ------------ */
 	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_0;
 	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_1;
 	*RCC_CFGR_register &= ~RCC_CFGR_MCO1_2;
 
 	*RCC_CFGR_register &= RCC_CFGR_SW_HSI; 					// Sys CLK sur HSI
 
-	/* ------ division par 10 à la sortie sur MCO1 ------ */
+	/* ------- Division par 10 à la sortie sur MCO1 ------- */
 	*RCC_CFGR_register &= ~RCC_CFGR_MCO1PRE_0;
 	*RCC_CFGR_register |= RCC_CFGR_MCO1PRE_1;
 	*RCC_CFGR_register &= ~RCC_CFGR_MCO1PRE_2;
@@ -133,16 +135,15 @@ void clock_config(){
 
 
 	while(((*RCC_CR_register >> 14) & 0x1) != 1) ; 			// Clock domain stable D1
-	while(((*RCC_CR_register >> 15) & 0x1) != 1) ;			// -					  D2
+	while(((*RCC_CR_register >> 15) & 0x1) != 1) ;			// -				   D2
 
 	*RCC_CR_register |= RCC_CR_PLL1ON; // PLL1 ON
-	while(((*RCC_CR_register >> 25) & 0x1) != 1) ; 			// PLL1 clock ready
+	//while(((*RCC_CR_register >> 25) & 0x1) != 1) ; 			// PLL1 clock ready
 	*RCC_CFGR_register |= RCC_CFGR_SW_PLL1; 				// Sys CLK sur PLL1
 
 
-	*RCC_D1CFGR_register &= ~RCC_D1CFGR_HPRE_DIV1; //HPRE PRESCALER /0
-	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1PPRE_DIV1; //D1PPRE PRESCALER /0
-	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1CPRE_DIV1; //D1CPRE PRESCALER /0
-
+	*RCC_D1CFGR_register &= ~RCC_D1CFGR_HPRE_DIV1; 			// HPRE PRESCALER /0
+	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1PPRE_DIV1; 		// D1PPRE PRESCALER /0
+	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1CPRE_DIV1; 		// D1CPRE PRESCALER /0
 
 }
