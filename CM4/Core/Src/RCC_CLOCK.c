@@ -138,7 +138,7 @@ void clock_config(){
 	while(((*RCC_CR_register >> 15) & 0x1) != 1) ;			// -				   D2
 
 	*RCC_CR_register |= RCC_CR_PLL1ON; // PLL1 ON
-	//while(((*RCC_CR_register >> 25) & 0x1) != 1) ; 			// PLL1 clock ready
+	while(((*RCC_CR_register >> 25) & 0x1) != 1) ; 			// PLL1 clock ready
 	*RCC_CFGR_register |= RCC_CFGR_SW_PLL1; 				// Sys CLK sur PLL1
 
 

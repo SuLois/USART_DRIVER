@@ -1,5 +1,7 @@
 "./Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.o"
+"./Core/Src/FLASH.o"
 "./Core/Src/GPIO.o"
+"./Core/Src/PWR.o"
 "./Core/Src/RCC_CLOCK.o"
 "./Core/Src/USART_driver.o"
 "./Core/Src/main.o"

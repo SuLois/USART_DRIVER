@@ -24,6 +24,8 @@
 #include "USART_driver.h"
 #include "GPIO.h"
 #include "RCC_CLOCK.h"
+#include "PWR.h"
+#include "FLASH.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,6 +91,8 @@ int main(void)
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
 
+	power_clock_config();
+	flash_config();
 	clock_config();
 	gpio_check_freq();
 
@@ -100,7 +104,7 @@ int main(void)
 	        .USART_WordLenght = 8,
 	        .USART_ParityControl = 0,
 	        .USART_HWFlowControl = 0
-	    };
+	 };
 
 	 //usart_init(&usart_config);
 
