@@ -82,13 +82,15 @@ void clock_config(){
 	volatile uint32_t *RCC_CR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CR);
 	volatile uint32_t *RCC_D1CFGR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.D1CFGR);
 
+
+	*RCC_RSR_register |= RCC_RSR_SFT2RSTF; 					// Reset des registres du CPU2
+
+
+	/*Configuration intiale PLL1
 	volatile uint32_t *RCC_PLL1DIVR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.PLL1DIVR);
 	volatile uint32_t *RCC_PLLCKSELR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.PLLCKSELR);
 	volatile uint32_t *RCC_CIER_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CIER);
 	volatile uint32_t *RCC_CICR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.CICR);
-
-
-	*RCC_RSR_register |= RCC_RSR_SFT2RSTF; 					// Reset des registres du CPU2
 
 	//Configuration des prescaler internes PLL1
 	*RCC_PLL1DIVR_register &= ~RCC_PLL1DIVR_N1;				// RAZ
@@ -106,7 +108,7 @@ void clock_config(){
 
 	*RCC_CIER_register |= RCC_CIER_PLL1RDYIE; 				// Activer les interruptions sur flag PLL1 READY
 	*RCC_CICR_register |= RCC_CICR_PLLRDYC; 				// reset interruptions sur flag PLL1 READY
-
+	*/
 
 	*RCC_CR_register |= RCC_CR_HSEON; 						// Clock HSE on
 	*RCC_CFGR_register |= RCC_CFGR_SW_HSE; 					// Sys CLK sur HSE
@@ -137,13 +139,25 @@ void clock_config(){
 	while(((*RCC_CR_register >> 14) & 0x1) != 1) ; 			// Clock domain stable D1
 	while(((*RCC_CR_register >> 15) & 0x1) != 1) ;			// -				   D2
 
-	*RCC_CR_register |= RCC_CR_PLL1ON; // PLL1 ON
+	/* Configuration finale PLL1
+	*RCC_CR_register |= RCC_CR_PLL1ON; // PLL1 OFF
 	while(((*RCC_CR_register >> 25) & 0x1) != 1) ; 			// PLL1 clock ready
 	*RCC_CFGR_register |= RCC_CFGR_SW_PLL1; 				// Sys CLK sur PLL1
-
+	*/
 
 	*RCC_D1CFGR_register &= ~RCC_D1CFGR_HPRE_DIV1; 			// HPRE PRESCALER /0
 	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1PPRE_DIV1; 		// D1PPRE PRESCALER /0
 	*RCC_D1CFGR_register &= ~RCC_D1CFGR_D1CPRE_DIV1; 		// D1CPRE PRESCALER /0
+
+
+	/*
+	 * Mise à ON des clock périphériques
+	*/
+	volatile uint32_t *RCC_AHB4ENR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.AHB4ENR);
+	volatile uint32_t *RCC_APB1LENR_register = (volatile uint32_t *)((uint32_t)RCC_BASE + RCC_offset.APB1LENR);
+
+	*RCC_AHB4ENR_register |= RCC_AHB4ENR_GPIOAEN;
+
+	*RCC_APB1LENR_register |= RCC_APB1LENR_TIM2EN;
 
 }

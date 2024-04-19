@@ -3,6 +3,7 @@
 "./Core/Src/GPIO.o"
 "./Core/Src/PWR.o"
 "./Core/Src/RCC_CLOCK.o"
+"./Core/Src/TIM.o"
 "./Core/Src/USART_driver.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32h7xx_it.o"

@@ -26,6 +26,7 @@
 #include "RCC_CLOCK.h"
 #include "PWR.h"
 #include "FLASH.h"
+#include "TIM.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,6 +95,7 @@ int main(void)
 	power_clock_config();
 	flash_config();
 	clock_config();
+	tim2_config();
 	gpio_check_freq();
 
 	/* Configuration de la liaison USART */

@@ -26,13 +26,12 @@ static GPIO_TypeDef GPIO_offset = {
 
 void gpio_check_freq(void){
 
-	volatile uint32_t *RCC_AHB4ENR_register = (volatile uint32_t *)RCC_AHB4ENR_address;
-	//Activer la clock sur GPIOA
-	*RCC_AHB4ENR_register |= AHB4ENR_A;
+	/*
+	 * Configuration de la sortie de la clock systeme sur GPIO PA8
+	*/
 
-	/* TODO : Créer une fonction pour la déclaration des registres en tant que pointer */
 	volatile uint32_t *GPIO_A_MODER_register = (volatile uint32_t *)((uint32_t)GPIOA + GPIO_offset.MODER);
-
+	// Alternante function sur PA8
 	*GPIO_A_MODER_register &= ~GPIO_MODER_MODE8_0;
 	*GPIO_A_MODER_register |= GPIO_MODER_MODE8_1;
 
@@ -44,6 +43,24 @@ void gpio_check_freq(void){
 	*GPIO_A_AFRH_register &= ~GPIO_AFRH_AFSEL8_1;
 	*GPIO_A_AFRH_register &= ~GPIO_AFRH_AFSEL8_2;
 	*GPIO_A_AFRH_register &= ~GPIO_AFRH_AFSEL8_3;
+
+	/*
+	 * Configuration de la sortie du TIM2 sur GPIO PA0
+	*/
+
+	// Alternante function sur PA0
+	*GPIO_A_MODER_register &= ~GPIO_MODER_MODE0_0;
+	*GPIO_A_MODER_register |= GPIO_MODER_MODE0_1;
+
+	// Choix de la fonction alternative --> TIM2_CH1 sur PA0 --> AF1 --> 0001
+	volatile uint32_t *GPIO_A_AFRL_register = (volatile uint32_t *)((uint32_t)GPIOA + GPIO_offset.AFR[GPIO_AFR_offset_0]);
+
+	*GPIO_A_AFRL_register |= GPIO_AFRL_AFSEL0_0;
+	*GPIO_A_AFRL_register &= ~GPIO_AFRL_AFSEL0_1;
+	*GPIO_A_AFRL_register &= ~GPIO_AFRL_AFSEL0_2;
+	*GPIO_A_AFRL_register &= ~GPIO_AFRL_AFSEL0_3;
+
+
 
 
 

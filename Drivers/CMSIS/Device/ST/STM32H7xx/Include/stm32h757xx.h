@@ -26968,7 +26968,7 @@ typedef struct
 #define HRTIM_CPT1CR_TIMECMP2_Msk     (0x1UL << HRTIM_CPT1CR_TIMECMP2_Pos)     /*!< 0x80000000 */
 #define HRTIM_CPT1CR_TIMECMP2         HRTIM_CPT1CR_TIMECMP2_Msk                /*!< Timer E compare 2 */
 
-/**** Bit definition for Slave Timer Capture 2 control register ***************/
+/**** Bit definition for Slave  Capture 2 control register ***************/
 #define HRTIM_CPT2CR_SWCPT_Pos        (0U)
 #define HRTIM_CPT2CR_SWCPT_Msk        (0x1UL << HRTIM_CPT2CR_SWCPT_Pos)        /*!< 0x00000001 */
 #define HRTIM_CPT2CR_SWCPT            HRTIM_CPT2CR_SWCPT_Msk                   /*!< Software capture */
@@ -27008,10 +27008,10 @@ typedef struct
 
 #define HRTIM_CPT2CR_TA1SET_Pos       (12U)
 #define HRTIM_CPT2CR_TA1SET_Msk       (0x1UL << HRTIM_CPT2CR_TA1SET_Pos)       /*!< 0x00001000 */
-#define HRTIM_CPT2CR_TA1SET           HRTIM_CPT2CR_TA1SET_Msk                  /*!< Timer A output 1 set */
+#define HRTIM_CPT2CR_TA1SET           HRTIM_CPT2CR_TA1SET_Msk                  /*!<  A output 1 set */
 #define HRTIM_CPT2CR_TA1RST_Pos       (13U)
 #define HRTIM_CPT2CR_TA1RST_Msk       (0x1UL << HRTIM_CPT2CR_TA1RST_Pos)       /*!< 0x00002000 */
-#define HRTIM_CPT2CR_TA1RST           HRTIM_CPT2CR_TA1RST_Msk                  /*!< Timer A output 1 reset */
+#define HRTIM_CPT2CR_TA1RST           HRTIM_CPT2CR_TA1RST_Msk                  /*!<  A output 1 reset */
 #define HRTIM_CPT2CR_TIMACMP1_Pos     (14U)
 #define HRTIM_CPT2CR_TIMACMP1_Msk     (0x1UL << HRTIM_CPT2CR_TIMACMP1_Pos)     /*!< 0x00004000 */
 #define HRTIM_CPT2CR_TIMACMP1         HRTIM_CPT2CR_TIMACMP1_Msk                /*!< Timer A compare 1 */

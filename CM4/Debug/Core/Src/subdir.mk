@@ -9,6 +9,7 @@ C_SRCS += \
 ../Core/Src/GPIO.c \
 ../Core/Src/PWR.c \
 ../Core/Src/RCC_CLOCK.c \
+../Core/Src/TIM.c \
 ../Core/Src/USART_driver.c \
 ../Core/Src/main.c \
 ../Core/Src/stm32h7xx_it.c \
@@ -20,6 +21,7 @@ OBJS += \
 ./Core/Src/GPIO.o \
 ./Core/Src/PWR.o \
 ./Core/Src/RCC_CLOCK.o \
+./Core/Src/TIM.o \
 ./Core/Src/USART_driver.o \
 ./Core/Src/main.o \
 ./Core/Src/stm32h7xx_it.o \
@@ -31,6 +33,7 @@ C_DEPS += \
 ./Core/Src/GPIO.d \
 ./Core/Src/PWR.d \
 ./Core/Src/RCC_CLOCK.d \
+./Core/Src/TIM.d \
 ./Core/Src/USART_driver.d \
 ./Core/Src/main.d \
 ./Core/Src/stm32h7xx_it.d \
@@ -45,7 +48,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/FLASH.cyclo ./Core/Src/FLASH.d ./Core/Src/FLASH.o ./Core/Src/FLASH.su ./Core/Src/GPIO.cyclo ./Core/Src/GPIO.d ./Core/Src/GPIO.o ./Core/Src/GPIO.su ./Core/Src/PWR.cyclo ./Core/Src/PWR.d ./Core/Src/PWR.o ./Core/Src/PWR.su ./Core/Src/RCC_CLOCK.cyclo ./Core/Src/RCC_CLOCK.d ./Core/Src/RCC_CLOCK.o ./Core/Src/RCC_CLOCK.su ./Core/Src/USART_driver.cyclo ./Core/Src/USART_driver.d ./Core/Src/USART_driver.o ./Core/Src/USART_driver.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32h7xx_it.cyclo ./Core/Src/stm32h7xx_it.d ./Core/Src/stm32h7xx_it.o ./Core/Src/stm32h7xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su
+	-$(RM) ./Core/Src/FLASH.cyclo ./Core/Src/FLASH.d ./Core/Src/FLASH.o ./Core/Src/FLASH.su ./Core/Src/GPIO.cyclo ./Core/Src/GPIO.d ./Core/Src/GPIO.o ./Core/Src/GPIO.su ./Core/Src/PWR.cyclo ./Core/Src/PWR.d ./Core/Src/PWR.o ./Core/Src/PWR.su ./Core/Src/RCC_CLOCK.cyclo ./Core/Src/RCC_CLOCK.d ./Core/Src/RCC_CLOCK.o ./Core/Src/RCC_CLOCK.su ./Core/Src/TIM.cyclo ./Core/Src/TIM.d ./Core/Src/TIM.o ./Core/Src/TIM.su ./Core/Src/USART_driver.cyclo ./Core/Src/USART_driver.d ./Core/Src/USART_driver.o ./Core/Src/USART_driver.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32h7xx_it.cyclo ./Core/Src/stm32h7xx_it.d ./Core/Src/stm32h7xx_it.o ./Core/Src/stm32h7xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su
 
 .PHONY: clean-Core-2f-Src
 

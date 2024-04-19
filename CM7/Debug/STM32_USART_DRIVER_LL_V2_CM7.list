@@ -898,10 +898,10 @@ int main(void)
 	...
 
 08000724 <SystemClock_Config>:
+/**
   * @brief System Clock Configuration
   * @retval None
   */
-
 void SystemClock_Config(void)
 {
  8000724:	b580      	push	{r7, lr}
@@ -926,7 +926,7 @@ void SystemClock_Config(void)
   LL_RCC_HSI_Enable();
  8000748:	f7ff fe80 	bl	800044c <LL_RCC_HSI_Enable>
 
-   // Wait till HSI is ready
+   /* Wait till HSI is ready */
   while(LL_RCC_HSI_IsReady() != 1)
  800074c:	bf00      	nop
  800074e:	f7ff fe8d 	bl	800046c <LL_RCC_HSI_IsReady>
@@ -946,7 +946,7 @@ void SystemClock_Config(void)
  8000764:	2000      	movs	r0, #0
  8000766:	f7ff fecf 	bl	8000508 <LL_RCC_SetSysClkSource>
 
-   // Wait till System clock is ready
+   /* Wait till System clock is ready */
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI)
  800076a:	bf00      	nop
  800076c:	f7ff fee0 	bl	8000530 <LL_RCC_GetSysClkSource>

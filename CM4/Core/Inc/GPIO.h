@@ -30,10 +30,6 @@
 */
 #define RCC_AHB4ENR_address 0x580244e0
 
-#define AHB4ENR_A_Pos               0
-#define AHB4ENR_A_Msk               (1 << AHB4ENR_A_Pos)
-#define AHB4ENR_A                   AHB4ENR_A_Msk                    // Clock enabled on GPIO A
-
 #define AHB4ENR_B_Pos               2
 #define AHB4ENR_B_Msk               (1 << AHB4ENR_B_Pos)
 #define AHB4ENR_B                   AHB4ENR_B_Msk                    // Clock enabled on GPIO B
