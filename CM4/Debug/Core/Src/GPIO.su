@@ -1,3 +1,4 @@
-../Core/Src/GPIO.c:27:6:gpio_check_freq	24	static
-../Core/Src/GPIO.c:69:6:delay	24	static
-../Core/Src/GPIO.c:76:6:blink_LED4	24	static
+../Core/Src/GPIO.c:15:6:gpio_check_freq	4	static
+../Core/Src/GPIO.c:55:6:delay	24	static
+../Core/Src/GPIO.c:62:6:gpio_config	4	static
+../Core/Src/GPIO.c:72:6:blink_LED4	8	static

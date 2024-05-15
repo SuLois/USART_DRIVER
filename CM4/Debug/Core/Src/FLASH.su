@@ -1,1 +1,1 @@
-../Core/Src/FLASH.c:53:6:flash_config	16	static
+../Core/Src/FLASH.c:10:6:flash_config	4	static

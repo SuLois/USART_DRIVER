@@ -1,2 +1,4 @@
-../Core/Src/main.c:70:5:main	1
-../Core/Src/main.c:137:6:Error_Handler	1
+../../Drivers/CMSIS/Include/core_cm4.h:1648:22:__NVIC_SetPriorityGrouping	1
+../../Drivers/CMSIS/Include/core_cm4.h:1679:22:__NVIC_EnableIRQ	2
+../Core/Src/main.c:70:5:main	2
+../Core/Src/main.c:161:6:Error_Handler	1

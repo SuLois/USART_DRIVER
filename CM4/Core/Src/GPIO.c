@@ -11,18 +11,6 @@
 
 /*----------------------------------------------------------------------------*/
 
-static GPIO_TypeDef GPIO_offset = {
-	.MODER = GPIO_MODER_offset,
-	.OTYPER = GPIO_OTYPER_offset,
-	.OSPEEDR = GPIO_OSPEEDR_offset,
-	.PUPDR = GPIO_PUPDR_offset,
-	.IDR = GPIO_IDR_offset,
-	.ODR = GPIO_ODR_offset,
-	.BSRR = GPIO_BSRR_offset,
-	.LCKR = GPIO_LCKR_offset,
-	.AFR = {GPIO_AFR_offset_0, GPIO_AFR_offset_1}
-};
-
 
 void gpio_check_freq(void){
 
@@ -30,35 +18,33 @@ void gpio_check_freq(void){
 	 * Configuration de la sortie de la clock systeme sur GPIO PA8
 	*/
 
-	volatile uint32_t *GPIO_A_MODER_register = (volatile uint32_t *)((uint32_t)GPIOA + GPIO_offset.MODER);
 	// Alternante function sur PA8
-	*GPIO_A_MODER_register &= ~GPIO_MODER_MODE8_0;
-	*GPIO_A_MODER_register |= GPIO_MODER_MODE8_1;
+	GPIOA -> MODER &= ~GPIO_MODER_MODE8_0;
+	GPIOA -> MODER |= GPIO_MODER_MODE8_1;
 
 
 	// Choix de la fonction alternative --> MCO1 sur PA8 --> AF0 --> 0000
-	volatile uint32_t *GPIO_A_AFRH_register = (volatile uint32_t *)((uint32_t)GPIOA + GPIO_offset.AFR[GPIO_AFR_offset_1]);
 
-	*GPIO_A_AFRH_register &= ~GPIO_AFRH_AFSEL8_0;
-	*GPIO_A_AFRH_register &= ~GPIO_AFRH_AFSEL8_1;
-	*GPIO_A_AFRH_register &= ~GPIO_AFRH_AFSEL8_2;
-	*GPIO_A_AFRH_register &= ~GPIO_AFRH_AFSEL8_3;
+	GPIOA -> AFR[1] &= ~GPIO_AFRH_AFSEL8_0;
+	GPIOA -> AFR[1] &= ~GPIO_AFRH_AFSEL8_1;
+	GPIOA -> AFR[1] &= ~GPIO_AFRH_AFSEL8_2;
+	GPIOA -> AFR[1] &= ~GPIO_AFRH_AFSEL8_3;
+
 
 	/*
 	 * Configuration de la sortie du TIM2 sur GPIO PA0
 	*/
 
-	// Alternante function sur PA0
-	*GPIO_A_MODER_register &= ~GPIO_MODER_MODE0_0;
-	*GPIO_A_MODER_register |= GPIO_MODER_MODE0_1;
+	// Alternate function sur PA0
+	GPIOA -> MODER &= ~GPIO_MODER_MODE0_0;
+	GPIOA -> MODER |= GPIO_MODER_MODE0_1;
 
 	// Choix de la fonction alternative --> TIM2_CH1 sur PA0 --> AF1 --> 0001
-	volatile uint32_t *GPIO_A_AFRL_register = (volatile uint32_t *)((uint32_t)GPIOA + GPIO_offset.AFR[GPIO_AFR_offset_0]);
 
-	*GPIO_A_AFRL_register |= GPIO_AFRL_AFSEL0_0;
-	*GPIO_A_AFRL_register &= ~GPIO_AFRL_AFSEL0_1;
-	*GPIO_A_AFRL_register &= ~GPIO_AFRL_AFSEL0_2;
-	*GPIO_A_AFRL_register &= ~GPIO_AFRL_AFSEL0_3;
+	GPIOA -> AFR[0] |= GPIO_AFRL_AFSEL0_0;
+	GPIOA -> AFR[0] &= ~GPIO_AFRL_AFSEL0_1;
+	GPIOA -> AFR[0] &= ~GPIO_AFRL_AFSEL0_2;
+	GPIOA -> AFR[0] &= ~GPIO_AFRL_AFSEL0_3;
 
 
 
@@ -73,19 +59,17 @@ void delay(uint32_t nb){
 	for(i=0; i<nb; i++){}
 }
 
-void blink_LED4(void){
-
-	volatile uint32_t *GPIO_K_MODER_register = (volatile uint32_t *)((uint32_t)GPIOK + GPIO_offset.MODER);
-	volatile uint32_t *GPIO_K_BSRR_register = (volatile uint32_t *)((uint32_t)GPIOK + GPIO_offset.BSRR);
-
-	volatile uint32_t *RCC_AHB4ENR_register = (volatile uint32_t *)RCC_AHB4ENR_address;
+void gpio_config(void){
 
 	//Activation de la clock sur GPIO K
-	*RCC_AHB4ENR_register |= AHB4ENR_K;
+	RCC -> AHB4ENR |= RCC_AHB4ENR_GPIOKEN;
 
 	//Configuration de PK6 en OUPTUT
-	*GPIO_K_MODER_register |= GPIO_MODER_MODE6_0;
-	*GPIO_K_MODER_register &= ~ GPIO_MODER_MODE6_1;
+	GPIOK -> MODER |= GPIO_MODER_MODE6_0;
+	GPIOK -> MODER &= ~ GPIO_MODER_MODE6_1;
+}
+
+void blink_LED4(void){
 
 	/*
 	 * LED4 allumée
@@ -97,9 +81,9 @@ void blink_LED4(void){
 	 *	BSRR[31:15] = ‘1’: Reset
 	*/
 	//Bit mis à 1
-	*GPIO_K_BSRR_register |= GPIO_BSRR_BS6;
+	GPIOK -> BSRR |= GPIO_BSRR_BS6;
 	delay(100000);
-	*GPIO_K_BSRR_register |= GPIO_BSRR_BR6;
+	GPIOK -> BSRR |= GPIO_BSRR_BR6;
 	delay(100000);
 }
 /*

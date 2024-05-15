@@ -79,7 +79,7 @@ int main(void)
   //LL_APB4_GRP1_EnableClock(LL_APB4_GRP1_PERIPH_SYSCFG);
 
   /* System interrupt init*/
-  //NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+	NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
   /* USER CODE BEGIN Init */
 
@@ -92,10 +92,13 @@ int main(void)
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
 
-	power_clock_config();
-	flash_config();
+	//power_clock_config();
+	//flash_config();
 	clock_config();
 	tim2_config();
+	NVIC_EnableIRQ(TIM2_IRQn); 				// Interruption 28 pour TIM2, confirmer le placement (après les configs ?)
+
+	gpio_config();
 	gpio_check_freq();
 
 	/* Configuration de la liaison USART */
@@ -115,15 +118,36 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-	  blink_LED4();
 
-    /* USER CODE END WHILE */
+	 int temp;
 
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
+	 while (1)
+	 {
+
+		if(((TIM2 -> SR >> TIM_SR_UIF_Pos) & 0x1) == 1){
+
+			GPIOK -> ODR ^= GPIO_ODR_OD6;
+/*
+			if(temp % 2){
+				temp = 2;
+				GPIOK -> BSRR |= GPIO_BSRR_BS6;
+			}
+			else{
+				temp = 1;
+				GPIOK -> BSRR |= GPIO_BSRR_BR6;
+			}
+*/
+			TIM2 -> SR &= ~TIM_SR_UIF;
+
+			//blink_LED4();
+		}
+
+
+		/* USER CODE END WHILE */
+
+		/* USER CODE BEGIN 3 */
+	 }
+	 /* USER CODE END 3 */
 }
 
 /* USER CODE BEGIN 4 */
