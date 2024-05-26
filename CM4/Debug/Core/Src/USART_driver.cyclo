@@ -1,4 +1,4 @@
 ../../Drivers/CMSIS/Include/core_cm4.h:1679:22:__NVIC_EnableIRQ	2
 ../Core/Src/USART_driver.c:14:6:usart_init	8
-../Core/Src/USART_driver.c:122:6:usart_transmit	4
-../Core/Src/USART_driver.c:153:6:USART1_IRQHandler	2
+../Core/Src/USART_driver.c:117:6:usart_transmit	4
+../Core/Src/USART_driver.c:138:6:USART1_IRQHandler	2

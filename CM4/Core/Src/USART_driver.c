@@ -26,10 +26,6 @@ void usart_init(const USART_Config_t *config){
 	RCC -> D2CCIP2R &= ~RCC_D2CCIP2R_USART16SEL_2;
 	RCC -> APB2ENR |= RCC_APB2ENR_USART1EN;
 
-	//Variables de configuration
-	// TODO
-	//uint32_t usartdiv; //Configuration du registre BRR - MISE EN ATTENTE
-
 	/* Configuration des bits de registres en fonction des configurations données par l'utilisateur */
 	/*
 	 *  WordLenght
@@ -106,13 +102,12 @@ void usart_init(const USART_Config_t *config){
 	*/
 
 	USART1 -> CR1 |= USART_CR1_RE;
-	//USART1 -> CR1 |= USART_CR1_TE;
 
 	/*
-		 *  Enabling USART with UE bit
-		 *  CR1[0] = ‘0’		USART prescaler et outputs off low-power mode,
-		 *	CR1[0] = ‘1’ 		USART on
-		*/
+	*  Enabling USART with UE bit
+	*  CR1[0] = ‘0’		USART prescaler et outputs off low-power mode,
+	*	CR1[0] = ‘1’ 		USART on
+	*/
 
 	USART1 -> CR1 |= USART_CR1_UE;
 
@@ -127,15 +122,6 @@ void usart_transmit(char *data){
 	*/
 	USART1 -> CR1 |= USART_CR1_TE;				// Transmetteur activé
 
-
-/*
-	for(int i = 0; i < strlen(data); i++){
-		// Attendre flag TXE à 1 avant remplissage TDR
-		while(((USART1 -> ISR >> USART_ISR_TXE_TXFNF_Pos) & 0x1) != 1);
-		// Remplissage registre TDR
-		USART1 -> TDR |= data[i];
-	}
-*/
 	while(*data != '\0'){
 		while(((USART1 -> ISR >> USART_ISR_TXE_TXFNF_Pos) & 0x1) != 1);
 		USART1 -> TDR = *data;
@@ -144,7 +130,6 @@ void usart_transmit(char *data){
 	// Attendre TC (fin transmission)
 	while(((USART1 -> ISR >> USART_ISR_TC_Pos) & 0x1) != 1);
 
-	//USART1 -> ICR |= USART_ICR_TCCF;			// Clear TC flag
 	USART1 -> CR1 &= ~USART_CR1_TE;				// Transmetteur OFF
 
 }
@@ -152,13 +137,14 @@ void usart_transmit(char *data){
 
 void USART1_IRQHandler(void){
 
-	char data_r;
+	char *data_r;
 
 	// Attendre flag RXNE à 1 avant lecture TDR
 	if(((USART1 -> ISR >> USART_ISR_RXNE_RXFNE) & 0x1) == 1){
 
 		data_r = (USART1 -> RDR);					// Lecture RDR
-		GPIOK -> ODR ^= GPIO_ODR_OD6;		// Inverse l'état de la LED
+		GPIOK -> ODR ^= GPIO_ODR_OD6;				// Inverse l'état de la LED
+		usart_transmit(data_r);
 	}
 }
 
