@@ -1,4 +1,5 @@
 ../Core/Src/GPIO.c:15:6:gpio_check_freq	1
-../Core/Src/GPIO.c:55:6:delay	2
-../Core/Src/GPIO.c:62:6:gpio_config	1
-../Core/Src/GPIO.c:72:6:blink_LED4	1
+../Core/Src/GPIO.c:51:6:delay	2
+../Core/Src/GPIO.c:58:6:gpio_config	1
+../Core/Src/GPIO.c:68:6:blink_LED4	1
+../Core/Src/GPIO.c:86:6:usart_gpio	1

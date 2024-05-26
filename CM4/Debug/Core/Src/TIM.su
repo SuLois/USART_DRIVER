@@ -1,1 +1,3 @@
-../Core/Src/TIM.c:12:6:tim2_config	4	static
+../../Drivers/CMSIS/Include/core_cm4.h:1679:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
+../Core/Src/TIM.c:12:6:tim2_config	8	static
+../Core/Src/TIM.c:31:6:TIM2_IRQHandler	4	static

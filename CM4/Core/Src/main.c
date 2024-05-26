@@ -95,8 +95,7 @@ int main(void)
 	//power_clock_config();
 	//flash_config();
 	clock_config();
-	tim2_config();
-	NVIC_EnableIRQ(TIM2_IRQn); 				// Interruption 28 pour TIM2, confirmer le placement (après les configs ?)
+	//tim2_config();
 
 	gpio_config();
 	gpio_check_freq();
@@ -111,37 +110,21 @@ int main(void)
 	        .USART_HWFlowControl = 0
 	 };
 
-	 //usart_init(&usart_config);
+	 usart_init(&usart_config);
+
 
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	 char *data_to_send = "ABCD";
+	 char *data_received = "0";
 
-	 int temp;
+	 usart_transmit(data_to_send);
 
 	 while (1)
 	 {
-
-		if(((TIM2 -> SR >> TIM_SR_UIF_Pos) & 0x1) == 1){
-
-			GPIOK -> ODR ^= GPIO_ODR_OD6;
-/*
-			if(temp % 2){
-				temp = 2;
-				GPIOK -> BSRR |= GPIO_BSRR_BS6;
-			}
-			else{
-				temp = 1;
-				GPIOK -> BSRR |= GPIO_BSRR_BR6;
-			}
-*/
-			TIM2 -> SR &= ~TIM_SR_UIF;
-
-			//blink_LED4();
-		}
-
 
 		/* USER CODE END WHILE */
 
@@ -151,6 +134,7 @@ int main(void)
 }
 
 /* USER CODE BEGIN 4 */
+
 
 /* USER CODE END 4 */
 

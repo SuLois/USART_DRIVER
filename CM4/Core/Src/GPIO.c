@@ -46,10 +46,6 @@ void gpio_check_freq(void){
 	GPIOA -> AFR[0] &= ~GPIO_AFRL_AFSEL0_2;
 	GPIOA -> AFR[0] &= ~GPIO_AFRL_AFSEL0_3;
 
-
-
-
-
 }
 
 void delay(uint32_t nb){
@@ -86,12 +82,9 @@ void blink_LED4(void){
 	GPIOK -> BSRR |= GPIO_BSRR_BR6;
 	delay(100000);
 }
-/*
+
 void usart_gpio(void){
 
-	volatile uint32_t *GPIO_A_register = (volatile uint32_t *)GPIO_A_address;
-	volatile uint32_t *GPIO_B_register = (volatile uint32_t *)GPIO_B_address;
-*/
 	/*
 	 * Configuration du mode des GPIO PA9 (TX) et PA10 (RX)
 	 *  MODER[15:0][1:0] = ‘00’: Input mode
@@ -99,17 +92,41 @@ void usart_gpio(void){
 	 *	MODER[15:0][1:0] = ‘10’: Alternate function mode
 	 *	MODER[15:0][1:0] = ‘11’: Analog mode (reset state)
 	*/
-/*
-	*GPIO_A_register &= ~GPIO_PA9_0;
-	*GPIO_A_register |= GPIO_PA9_1;
 
-	*GPIO_A_register &= ~GPIO_PA10_0;
-	*GPIO_A_register |= GPIO_PA10_1;
+	GPIOA -> MODER &= ~GPIO_MODER_MODE9_0;
+	GPIOA -> MODER |= GPIO_MODER_MODE9_1;
+
+	//High speed
+	GPIOA -> OSPEEDR |= GPIO_OSPEEDR_OSPEED9_1;
+
+	// Configuration de la fonction alternative AF7 pour USART TX
+	GPIOA -> AFR[1] |= GPIO_AFRH_AFSEL9_0;
+	GPIOA -> AFR[1] |= GPIO_AFRH_AFSEL9_1;
+	GPIOA -> AFR[1] |= GPIO_AFRH_AFSEL9_2;
+	GPIOA -> AFR[1] &= ~GPIO_AFRH_AFSEL9_3;
+
+	GPIOA -> MODER &= ~GPIO_MODER_MODE10_0;
+	GPIOA -> MODER |= GPIO_MODER_MODE10_1;
+
+	//High speed
+	GPIOA -> OSPEEDR |= GPIO_OSPEEDR_OSPEED10_1;
+
+	// Configuration de la fonction alternative AF7 pour USART RX
+	GPIOA -> AFR[1] |= GPIO_AFRH_AFSEL10_0;
+	GPIOA -> AFR[1] |= GPIO_AFRH_AFSEL10_1;
+	GPIOA -> AFR[1] |= GPIO_AFRH_AFSEL10_2;
+	GPIOA -> AFR[1] &= ~GPIO_AFRH_AFSEL10_3;
 
 
-	*GPIO_B_register &= ~GPIO_PB14_0;
-	*GPIO_B_register |= GPIO_PB14_1;
+	/*
+	 * Clock activée sur gpio A
+	 */
+	RCC -> AHB4ENR |= RCC_AHB4ENR_GPIOAEN;
 
-	*GPIO_B_register &= ~GPIO_PB15_0;
-	*GPIO_B_register |= GPIO_PB15_1;
-}*/
+
+	GPIOB -> MODER &= ~GPIO_MODER_MODE14_0;
+	GPIOB -> MODER |= GPIO_MODER_MODE14_1;
+
+	GPIOB -> MODER &= ~GPIO_MODER_MODE15_0;
+	GPIOB -> MODER |= GPIO_MODER_MODE15_1;
+}
