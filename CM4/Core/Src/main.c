@@ -94,7 +94,7 @@ int main(void)
 	//power_clock_config();
 	//flash_config();
 	clock_config();
-	tim2_config();
+	//tim2_config();
 
 	gpio_config();
 	gpio_check_freq();
@@ -116,7 +116,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-	char data_to_send[] = "USART STM32\n";
+	char data_to_send[] = "STM32 USART\n";
 
 	usart_transmit(data_to_send);
 

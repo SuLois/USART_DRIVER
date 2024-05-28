@@ -33,7 +33,7 @@ void TIM2_IRQHandler(void){
 
 	if(((TIM2 -> SR >> TIM_SR_UIF_Pos) & 0x1) == 1){
 
-		GPIOK -> ODR ^= GPIO_ODR_OD6;		// Inverse l'état de la LED
+
 		TIM2 -> SR &= ~TIM_SR_UIF;			// Flag à 0
 
 	}

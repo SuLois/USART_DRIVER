@@ -121,7 +121,7 @@ void usart_init(const USART_Config_t *config){
 }
 
 
-#define USART1_BUFFER_SIZE 25
+#define USART1_BUFFER_SIZE 100
 
 volatile char data_buffer[USART1_BUFFER_SIZE] = {0};
 volatile uint8_t data_index = 0;
