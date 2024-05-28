@@ -52,6 +52,7 @@ typedef struct // alignement des variables en mémoire (modulo 32)
 
 void usart_init(const USART_Config_t *config);
 void usart_transmit(char *data);
+void rx_data(void);
 
 #endif /* INC_USART_DRIVER_H_ */
 

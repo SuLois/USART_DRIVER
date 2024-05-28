@@ -1,4 +1,5 @@
 ../../Drivers/CMSIS/Include/core_cm4.h:1679:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
 ../Core/Src/USART_driver.c:14:6:usart_init	16	static
-../Core/Src/USART_driver.c:117:6:usart_transmit	16	static
-../Core/Src/USART_driver.c:138:6:USART1_IRQHandler	16	static
+../Core/Src/USART_driver.c:132:6:usart_transmit	16	static
+../Core/Src/USART_driver.c:143:6:USART1_IRQHandler	16	static
+../Core/Src/USART_driver.c:161:6:rx_data	8	static

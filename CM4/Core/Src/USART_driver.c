@@ -16,8 +16,6 @@ void usart_init(const USART_Config_t *config){
 	// Configuration des pins associées
 	usart_gpio();
 
-	NVIC_EnableIRQ(USART1_IRQn);
-
 	/*
 	 *  Activation et choix de la clock sur USART1
 	 */
@@ -62,7 +60,11 @@ void usart_init(const USART_Config_t *config){
 	*/
 
 	USART1 -> CR1 |= USART_CR1_OVER8;						// OVER SAMPLING
+
+	// Interruptions
 	USART1 -> CR1 &= ~USART_CR1_MME;						// Disable mode Mute
+	USART1 -> CR1 |= USART_CR1_RXNEIE;						// Interruption sur RXNE flag
+	NVIC_EnableIRQ(USART1_IRQn);
 
 
 	USART1 -> BRR &= ~(USART_BRR_DIV_FRACTION_Msk | USART_BRR_DIV_MANTISSA_Msk);		// Configuration BRR 9600 bauds
@@ -100,7 +102,12 @@ void usart_init(const USART_Config_t *config){
 	/* TODO
 	 * usartdiv = 2 * USART_KER_PRES / config->USART_Baud;		// BRR Register calcul
 	*/
-
+	/*
+	*  Envoi d'une idle frame, bit TE CR1
+	*  CR1[3] = ‘0’		Transmetteur OFF
+	*	CR1[3] = ‘1’ 		Transmetteur ON
+	*/
+	USART1 -> CR1 |= USART_CR1_TE;				// Transmetteur activé
 	USART1 -> CR1 |= USART_CR1_RE;
 
 	/*
@@ -113,39 +120,49 @@ void usart_init(const USART_Config_t *config){
 
 }
 
+
+#define USART1_BUFFER_SIZE 25
+
+volatile char data_buffer[USART1_BUFFER_SIZE] = {0};
+volatile uint8_t data_index = 0;
+volatile uint8_t usart1_ready = 0;
+
+
 // Transmission des données
 void usart_transmit(char *data){
-	/*
-	 *  Envoi d'une idle frame, bit TE CR1
-	 *  CR1[3] = ‘0’		Transmetteur OFF
-	 *	CR1[3] = ‘1’ 		Transmetteur ON
-	*/
-	USART1 -> CR1 |= USART_CR1_TE;				// Transmetteur activé
+
 
 	while(*data != '\0'){
 		while(((USART1 -> ISR >> USART_ISR_TXE_TXFNF_Pos) & 0x1) != 1);
-		USART1 -> TDR = *data;
-		data++;
+		USART1 -> TDR = *data++;
 	}
 	// Attendre TC (fin transmission)
 	while(((USART1 -> ISR >> USART_ISR_TC_Pos) & 0x1) != 1);
-
-	USART1 -> CR1 &= ~USART_CR1_TE;				// Transmetteur OFF
-
 }
 
+void USART1_IRQHandler(void) {
+    if((USART1->ISR & USART_ISR_RXNE_RXFNE) != 0){
+        // Read received data
+        char data = (char)USART1 -> RDR;
 
-void USART1_IRQHandler(void){
+        if(data_index < USART1_BUFFER_SIZE){
+            data_buffer[data_index++] = data;
+            if(data == '\n') {
+                usart1_ready = 1;
+                data_index = 0;
+            }
+        }
+        else{
+            data_index = 0;
+        }
+    }
+}
 
-	char *data_r;
-
-	// Attendre flag RXNE à 1 avant lecture TDR
-	if(((USART1 -> ISR >> USART_ISR_RXNE_RXFNE) & 0x1) == 1){
-
-		data_r = (USART1 -> RDR);					// Lecture RDR
-		GPIOK -> ODR ^= GPIO_ODR_OD6;				// Inverse l'état de la LED
-		usart_transmit(data_r);
-	}
+void rx_data(void) {
+    if(usart1_ready){
+        usart_transmit(data_buffer);
+        usart1_ready = 0;
+    }
 }
 
 

@@ -74,7 +74,6 @@ int main(void)
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
-
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   //LL_APB4_GRP1_EnableClock(LL_APB4_GRP1_PERIPH_SYSCFG);
 
@@ -95,7 +94,7 @@ int main(void)
 	//power_clock_config();
 	//flash_config();
 	clock_config();
-	//tim2_config();
+	tim2_config();
 
 	gpio_config();
 	gpio_check_freq();
@@ -112,19 +111,19 @@ int main(void)
 
 	 usart_init(&usart_config);
 
-
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	 char *data_to_send = "ABCD";
-	 char *data_received = "0";
 
-	 usart_transmit(data_to_send);
+	char data_to_send[] = "USART STM32\n";
+
+	usart_transmit(data_to_send);
+
 
 	 while (1)
 	 {
+		 rx_data();
 
 		/* USER CODE END WHILE */
 
